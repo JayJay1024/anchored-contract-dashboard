@@ -6,8 +6,6 @@ import { Erc20Card } from "@/components/erc20-card";
 import { CashierBalance } from "@/components/cashier-balance";
 import { formatWithGrouping } from "@/lib/utils";
 import { getOnchainSnapshot } from "@/lib/onchain";
-import { useConnection, useReadContract } from "wagmi";
-import { cashierAbi } from "@/lib/abi/cashier";
 
 export default async function Home() {
   const onchain = await getOnchainSnapshot();
@@ -128,6 +126,8 @@ export default async function Home() {
           <CashierBalance
             cashierAddress={onchain.cashier}
             tokenSymbol={onchain.erc20Symbol}
+            tokenAddress={onchain.erc20Address}
+            tokenDecimals={onchain.erc20Decimals}
           />
         </section>
       </div>
