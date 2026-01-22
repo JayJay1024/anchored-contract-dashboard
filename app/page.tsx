@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { ConnectButton } from "@/components/connect-button";
 import { CashierTokenConfig } from "@/components/cashier-token-config";
+import { Erc20Card } from "@/components/erc20-card";
 import { cashierAbi } from "@/lib/abi/cashier";
 import { erc20Abi } from "@/lib/abi/erc20";
 import { routerAbi } from "@/lib/abi/router";
@@ -257,7 +258,7 @@ export default async function Home() {
           </div>
         </header>
 
-        <section className="grid gap-6 md:grid-cols-3">
+        <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-xl border bg-card p-6 shadow-sm">
             <p className="text-sm font-semibold text-muted-foreground">
               Router (Sepolia)
@@ -313,72 +314,34 @@ export default async function Home() {
                       </span>
                     ) : null}
                   </div>
-                <div>
-                  <dt className="font-medium text-foreground">
-                    Total supply
-                  </dt>
-                  <dd>
-                    {formatWithGrouping(onchain.tokenSupply)}
-                    {onchain.tokenSymbol ? ` ${onchain.tokenSymbol}` : ""}
-                  </dd>
-                  {onchain.tokenDecimals !== undefined ? (
-                    <p className="text-xs">
-                      Decimals: {onchain.tokenDecimals}
-                    </p>
-                    ) : null}
-                  </div>
-                </dl>
-              )}
-            </div>
-
-            <div className="rounded-lg border bg-card/60 p-4 shadow-sm">
-              <div className="flex items-center gap-2">
-                <p className="text-sm font-semibold text-muted-foreground">
-                  Generic ERC-20
-                </p>
-                <span className="rounded-full bg-muted px-2 py-0.5 text-[11px] text-foreground">
-                  From env
-                </span>
-              </div>
-              {onchain.tokenError ? (
-                <p className="mt-3 text-xs text-destructive">
-                  {onchain.tokenError}
-                </p>
-              ) : onchain.error ? (
-                <p className="mt-3 text-xs text-destructive">{onchain.error}</p>
-              ) : (
-                <dl className="mt-3 space-y-2 text-sm text-muted-foreground">
                   <div>
-                    <dt className="font-medium text-foreground">Address</dt>
-                    <dd className="break-all">{onchain.erc20Address ?? "—"}</dd>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <dt className="font-medium text-foreground">Name</dt>
-                    <dd>{onchain.erc20Name ?? "—"}</dd>
-                    {onchain.erc20Symbol ? (
-                      <span className="rounded-full bg-muted px-2 py-0.5 text-xs text-foreground">
-                        {onchain.erc20Symbol}
-                      </span>
-                    ) : null}
-                  </div>
-                  <div>
-                  <dt className="font-medium text-foreground">
-                    Total supply
-                  </dt>
-                  <dd>
-                    {formatWithGrouping(onchain.erc20Supply)}
-                    {onchain.erc20Symbol ? ` ${onchain.erc20Symbol}` : ""}
-                  </dd>
-                  {onchain.erc20Decimals !== undefined ? (
-                    <p className="text-xs">
-                      Decimals: {onchain.erc20Decimals}
-                    </p>
+                    <dt className="font-medium text-foreground">
+                      Total supply
+                    </dt>
+                    <dd>
+                      {formatWithGrouping(onchain.tokenSupply)}
+                      {onchain.tokenSymbol ? ` ${onchain.tokenSymbol}` : ""}
+                    </dd>
+                    {onchain.tokenDecimals !== undefined ? (
+                      <p className="text-xs">
+                        Decimals: {onchain.tokenDecimals}
+                      </p>
                     ) : null}
                   </div>
                 </dl>
               )}
             </div>
           </div>
+          <Erc20Card
+            tokenAddress={onchain.erc20Address}
+            tokenName={onchain.erc20Name}
+            tokenSymbol={onchain.erc20Symbol}
+            tokenDecimals={onchain.erc20Decimals}
+            tokenSupply={onchain.erc20Supply}
+            tokenError={onchain.tokenError}
+            globalError={onchain.error}
+            spenderAddress={onchain.cashier}
+          />
           <CashierTokenConfig
             tokenAddress={onchain.erc20Address}
             tokenSymbol={onchain.erc20Symbol}
