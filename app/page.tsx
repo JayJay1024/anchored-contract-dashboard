@@ -8,6 +8,7 @@ import { erc20Abi } from "@/lib/abi/erc20";
 import { routerAbi } from "@/lib/abi/router";
 import { stockTokenAbi } from "@/lib/abi/stock-token";
 import { publicClient } from "@/lib/viem/client";
+import { formatWithGrouping } from "@/lib/utils";
 
 type OnchainSnapshot = {
   routerAddress?: Address;
@@ -251,18 +252,18 @@ export default async function Home() {
                       </span>
                     ) : null}
                   </div>
-                  <div>
-                    <dt className="font-medium text-foreground">
-                      Total supply
-                    </dt>
-                    <dd>
-                      {onchain.tokenSupply ?? "—"}
-                      {onchain.tokenSymbol ? ` ${onchain.tokenSymbol}` : ""}
-                    </dd>
-                    {onchain.tokenDecimals !== undefined ? (
-                      <p className="text-xs">
-                        Decimals: {onchain.tokenDecimals}
-                      </p>
+                <div>
+                  <dt className="font-medium text-foreground">
+                    Total supply
+                  </dt>
+                  <dd>
+                    {formatWithGrouping(onchain.tokenSupply)}
+                    {onchain.tokenSymbol ? ` ${onchain.tokenSymbol}` : ""}
+                  </dd>
+                  {onchain.tokenDecimals !== undefined ? (
+                    <p className="text-xs">
+                      Decimals: {onchain.tokenDecimals}
+                    </p>
                     ) : null}
                   </div>
                 </dl>
@@ -300,17 +301,17 @@ export default async function Home() {
                     ) : null}
                   </div>
                   <div>
-                    <dt className="font-medium text-foreground">
-                      Total supply
-                    </dt>
-                    <dd>
-                      {onchain.erc20Supply ?? "—"}
-                      {onchain.erc20Symbol ? ` ${onchain.erc20Symbol}` : ""}
-                    </dd>
-                    {onchain.erc20Decimals !== undefined ? (
-                      <p className="text-xs">
-                        Decimals: {onchain.erc20Decimals}
-                      </p>
+                  <dt className="font-medium text-foreground">
+                    Total supply
+                  </dt>
+                  <dd>
+                    {formatWithGrouping(onchain.erc20Supply)}
+                    {onchain.erc20Symbol ? ` ${onchain.erc20Symbol}` : ""}
+                  </dd>
+                  {onchain.erc20Decimals !== undefined ? (
+                    <p className="text-xs">
+                      Decimals: {onchain.erc20Decimals}
+                    </p>
                     ) : null}
                   </div>
                 </dl>
