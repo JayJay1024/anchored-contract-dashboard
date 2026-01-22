@@ -3,6 +3,7 @@ import { formatUnits, isAddress, type Address } from "viem";
 
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
+import { ConnectButton } from "@/components/connect-button";
 import { erc20Abi } from "@/lib/abi/erc20";
 import { routerAbi } from "@/lib/abi/router";
 import { stockTokenAbi } from "@/lib/abi/stock-token";
@@ -190,6 +191,7 @@ export default async function Home() {
               <Sparkles className="h-4 w-4" />
             </Button>
             <ModeToggle />
+            <ConnectButton />
           </div>
         </header>
 
