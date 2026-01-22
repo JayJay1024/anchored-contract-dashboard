@@ -30,6 +30,7 @@ export type OnchainSnapshot = {
     withdrawBuffer: string;
     withdrawBufferCapacity: string;
   };
+  cashierBalance?: string;
   error?: string;
   tokenError?: string;
   cashierConfigError?: string;

@@ -1,11 +1,13 @@
-import { ArrowRight, MoonStar, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Sparkles } from "lucide-react";
 import { ModeToggle } from "@/components/mode-toggle";
 import { ConnectButton } from "@/components/connect-button";
 import { CashierTokenConfig } from "@/components/cashier-token-config";
 import { Erc20Card } from "@/components/erc20-card";
+import { CashierBalance } from "@/components/cashier-balance";
 import { formatWithGrouping } from "@/lib/utils";
 import { getOnchainSnapshot } from "@/lib/onchain";
+import { useConnection, useReadContract } from "wagmi";
+import { cashierAbi } from "@/lib/abi/cashier";
 
 export default async function Home() {
   const onchain = await getOnchainSnapshot();
@@ -122,6 +124,10 @@ export default async function Home() {
             tokenSymbol={onchain.erc20Symbol}
             config={onchain.cashierConfig}
             error={onchain.cashierConfigError}
+          />
+          <CashierBalance
+            cashierAddress={onchain.cashier}
+            tokenSymbol={onchain.erc20Symbol}
           />
         </section>
       </div>
