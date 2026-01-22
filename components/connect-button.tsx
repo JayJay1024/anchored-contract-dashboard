@@ -1,19 +1,26 @@
 "use client";
 
 import { useMemo } from "react";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import {
+  useConnect,
+  useConnection,
+  useConnectors,
+  useDisconnect,
+} from "wagmi";
 
 import { Button } from "@/components/ui/button";
 
 export function ConnectButton() {
-  const { address, isConnected } = useAccount();
-  const { connect, connectors, isPending, error } = useConnect();
-  const { disconnect, isPending: isDisconnecting } = useDisconnect();
+  const { address, isConnected } = useConnection();
+  const connectors = useConnectors();
+  const { mutate: connect, isPending, error } = useConnect();
+  const { mutate: disconnect, isPending: isDisconnecting } = useDisconnect();
 
   const primaryConnector = useMemo(
-    () => connectors.find((c) => c.ready),
+    () => connectors.find((c) => c.ready) ?? connectors[0],
     [connectors],
   );
+  const noConnector = connectors.length === 0;
 
   if (isConnected && address) {
     return (
@@ -43,10 +50,10 @@ export function ConnectButton() {
       >
         {isPending ? "Connecting…" : "Connect Wallet"}
       </Button>
-      {!primaryConnector ? (
-        <p className="text-xs text-destructive">
-          No compatible wallet found in browser.
-        </p>
+      {noConnector ? (
+        <p className="text-xs text-destructive">No wallet connectors found.</p>
+      ) : !primaryConnector?.ready ? (
+        <p className="text-xs text-muted-foreground">Waiting for wallet…</p>
       ) : null}
       {error ? (
         <p className="text-xs text-destructive">{error.message}</p>

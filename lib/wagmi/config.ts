@@ -1,21 +1,25 @@
 "use client";
 
 import { coinbaseWallet, injected, walletConnect } from "@wagmi/connectors";
-import { createConfig, http } from "wagmi";
+import { createConfig, http, type CreateConnectorFn } from "wagmi";
 import { sepolia } from "wagmi/chains";
-import type { Chain, Connector } from "wagmi";
 
 const rpcUrl = process.env.NEXT_PUBLIC_RPC_URL ?? process.env.SEPOLIA_RPC_URL;
 const projectId = process.env.NEXT_PUBLIC_WC_PROJECT_ID;
 
-const connectors = [
+const connectors: CreateConnectorFn[] = [
   injected({ shimDisconnect: true }),
-  projectId ? walletConnect({ projectId }) : null,
+  // OKX injects a separate provider flag; target helps discover it.
+  injected({ shimDisconnect: true, target: "okxwallet" }),
   coinbaseWallet({ appName: "Anchored Dashboard" }),
-].filter(Boolean) as Connector[];
+];
+
+if (projectId) {
+  connectors.push(walletConnect({ projectId }));
+}
 
 export const wagmiConfig = createConfig({
-  chains: [sepolia] as [Chain, ...Chain[]],
+  chains: [sepolia],
   transports: {
     [sepolia.id]: http(rpcUrl ?? undefined),
   },
