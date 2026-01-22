@@ -4,6 +4,7 @@ import { CashierBalance } from "@/components/cashier-balance";
 import { RouterCard } from "@/components/router-card";
 import { StockTokenCard } from "@/components/stock-token-card";
 import { HeaderHero } from "@/components/header-hero";
+import { RouterPlace } from "@/components/router-place";
 import { getOnchainSnapshot } from "@/lib/onchain";
 
 export default async function Home() {
@@ -47,6 +48,11 @@ export default async function Home() {
             tokenSymbol={onchain.erc20Symbol}
             tokenAddress={onchain.erc20Address}
             tokenDecimals={onchain.erc20Decimals}
+          />
+          <RouterPlace
+            routerAddress={onchain.routerAddress}
+            stockTokenAddress={onchain.stockTokenAddress}
+            tokenDecimals={onchain.tokenDecimals}
           />
         </section>
       </div>
