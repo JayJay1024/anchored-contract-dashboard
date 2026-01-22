@@ -4,6 +4,8 @@ import { formatUnits, isAddress, type Address } from "viem";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
 import { ConnectButton } from "@/components/connect-button";
+import { CashierTokenConfig } from "@/components/cashier-token-config";
+import { cashierAbi } from "@/lib/abi/cashier";
 import { erc20Abi } from "@/lib/abi/erc20";
 import { routerAbi } from "@/lib/abi/router";
 import { stockTokenAbi } from "@/lib/abi/stock-token";
@@ -24,8 +26,18 @@ type OnchainSnapshot = {
   erc20Symbol?: string;
   erc20Supply?: string;
   erc20Decimals?: number;
+  cashierConfig?: {
+    minAmount: string;
+    decimals: number;
+    depositPaused: boolean;
+    withdrawPaused: boolean;
+    usdRate: string;
+    withdrawBuffer: string;
+    withdrawBufferCapacity: string;
+  };
   error?: string;
   tokenError?: string;
+  cashierConfigError?: string;
 };
 
 async function getOnchainSnapshot(): Promise<OnchainSnapshot> {
@@ -124,6 +136,53 @@ async function getOnchainSnapshot(): Promise<OnchainSnapshot> {
     const erc20Decimals = erc20Values[2] as bigint | number | undefined;
     const erc20SupplyRaw = erc20Values[3] as bigint | undefined;
 
+    let cashierConfig:
+      | OnchainSnapshot["cashierConfig"]
+      | undefined = undefined;
+    let cashierConfigError: string | undefined;
+
+    if (erc20Address && cashier) {
+      try {
+        const config = await publicClient.readContract({
+          address: cashier as Address,
+          abi: cashierAbi,
+          functionName: "tokenConfig",
+          args: [erc20Address],
+        });
+        const [
+          minAmount,
+          decimals,
+          depositPaused,
+          withdrawPaused,
+          usdRate,
+          withdrawBuffer,
+          withdrawBufferCapacity,
+        ] = config as [
+          bigint | number,
+          number,
+          boolean,
+          boolean,
+          bigint | number,
+          bigint,
+          bigint,
+        ];
+        cashierConfig = {
+          minAmount: formatWithGrouping(minAmount.toString()),
+          decimals: Number(decimals),
+          depositPaused,
+          withdrawPaused,
+          usdRate: formatWithGrouping(usdRate.toString()),
+          withdrawBuffer: formatWithGrouping(withdrawBuffer.toString()),
+          withdrawBufferCapacity: formatWithGrouping(
+            withdrawBufferCapacity.toString(),
+          ),
+        };
+      } catch (err) {
+        cashierConfigError =
+          err instanceof Error ? err.message : "Failed to read token config";
+      }
+    }
+
     return {
       routerAddress,
       stockTokenAddress,
@@ -150,6 +209,8 @@ async function getOnchainSnapshot(): Promise<OnchainSnapshot> {
           : !erc20Env
             ? "ERC20_TOKEN_ADDRESS not set"
             : undefined,
+      cashierConfig,
+      cashierConfigError,
     };
   } catch (error) {
     const message =
@@ -196,7 +257,7 @@ export default async function Home() {
           </div>
         </header>
 
-        <section className="grid gap-6 md:grid-cols-2">
+        <section className="grid gap-6 md:grid-cols-3">
           <div className="rounded-xl border bg-card p-6 shadow-sm">
             <p className="text-sm font-semibold text-muted-foreground">
               Router (Sepolia)
@@ -318,6 +379,12 @@ export default async function Home() {
               )}
             </div>
           </div>
+          <CashierTokenConfig
+            tokenAddress={onchain.erc20Address}
+            tokenSymbol={onchain.erc20Symbol}
+            config={onchain.cashierConfig}
+            error={onchain.cashierConfigError}
+          />
         </section>
       </div>
     </main>
