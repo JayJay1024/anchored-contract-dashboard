@@ -4,6 +4,7 @@ import { ConnectButton } from "@/components/connect-button";
 import { CashierTokenConfig } from "@/components/cashier-token-config";
 import { Erc20Card } from "@/components/erc20-card";
 import { CashierBalance } from "@/components/cashier-balance";
+import { StockTokenBalance } from "@/components/stock-token-balance";
 import { formatWithGrouping } from "@/lib/utils";
 import { getOnchainSnapshot } from "@/lib/onchain";
 
@@ -90,20 +91,11 @@ export default async function Home() {
                       </span>
                     ) : null}
                   </div>
-                  <div>
-                    <dt className="font-medium text-foreground">
-                      Total supply
-                    </dt>
-                    <dd>
-                      {formatWithGrouping(onchain.tokenSupply)}
-                      {onchain.tokenSymbol ? ` ${onchain.tokenSymbol}` : ""}
-                    </dd>
-                    {onchain.tokenDecimals !== undefined ? (
-                      <p className="text-xs">
-                        Decimals: {onchain.tokenDecimals}
-                      </p>
-                    ) : null}
-                  </div>
+                  <StockTokenBalance
+                    tokenAddress={onchain.stockTokenAddress}
+                    tokenSymbol={onchain.tokenSymbol}
+                    tokenDecimals={onchain.tokenDecimals}
+                  />
                 </dl>
               )}
             </div>
