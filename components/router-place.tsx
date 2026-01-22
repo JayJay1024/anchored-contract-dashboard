@@ -26,7 +26,7 @@ export function RouterPlace({
   stockTokenAddress,
   tokenDecimals = 18,
 }: Props) {
-  const { address, chainId, isConnected } = useConnection();
+  const { chainId, isConnected } = useConnection();
   const { switchChain, isPending: isSwitching } = useSwitchChain();
   const {
     writeContract,

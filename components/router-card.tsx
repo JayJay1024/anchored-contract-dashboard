@@ -1,8 +1,6 @@
 "use client";
 
 import { type Address } from "viem";
-import { Sparkles } from "lucide-react";
-
 type Props = {
   router?: Address;
   cashier?: Address;
