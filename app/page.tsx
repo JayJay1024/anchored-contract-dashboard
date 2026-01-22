@@ -229,36 +229,30 @@ export default async function Home() {
   const onchain = await getOnchainSnapshot();
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <div className="mx-auto flex max-w-5xl flex-col gap-12 px-6 py-20 sm:px-10">
-        <header className="flex flex-col gap-5">
-          <div className="inline-flex w-fit items-center gap-2 rounded-full border bg-card px-4 py-2 text-xs font-medium text-muted-foreground shadow-sm">
-            <Sparkles className="h-4 w-4 text-primary" />
-            <span>shadcn/ui is wired up</span>
-          </div>
-          <div className="flex flex-col gap-3">
-            <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">
-              Anchored Contract Dashboard
-            </h1>
-            <p className="max-w-2xl text-lg text-muted-foreground">
-              On-chain snapshot from Sepolia: router-sourced addresses and
-              stock token metadata pulled live with viem.
-            </p>
-          </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <Button className="gap-2">
-              Get started
-              <ArrowRight className="h-4 w-4" />
-            </Button>
-            <Button variant="secondary">View components</Button>
-            <Button variant="ghost" size="icon" aria-label="Minimal action">
-              <Sparkles className="h-4 w-4" />
-            </Button>
-            <ModeToggle />
-            <ConnectButton />
+      <div className="mx-auto flex max-w-6xl flex-col gap-12 px-6 py-16 sm:px-10">
+        <header className="relative overflow-hidden rounded-2xl border bg-gradient-to-br from-background via-card to-muted/50 p-8 shadow-sm">
+          <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_top_right,rgba(59,130,246,0.08),transparent_35%)]" />
+          <div className="relative flex flex-col gap-5">
+            <div className="inline-flex w-fit items-center gap-2 rounded-full border bg-card/80 px-4 py-2 text-xs font-medium text-muted-foreground shadow-sm backdrop-blur">
+              <Sparkles className="h-4 w-4 text-primary" />
+              <span>Live Sepolia snapshot</span>
+            </div>
+            <div className="flex flex-col gap-3">
+              <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">
+                Anchored Contract Dashboard
+              </h1>
+              <p className="max-w-3xl text-lg text-muted-foreground">
+                Router endpoints, stock token metadata, ERC-20 balances, and cashier token config in one glance.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <ModeToggle />
+              <ConnectButton />
+            </div>
           </div>
         </header>
 
-        <section className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           <div className="rounded-xl border bg-card p-6 shadow-sm">
             <p className="text-sm font-semibold text-muted-foreground">
               Router (Sepolia)
@@ -337,7 +331,6 @@ export default async function Home() {
             tokenName={onchain.erc20Name}
             tokenSymbol={onchain.erc20Symbol}
             tokenDecimals={onchain.erc20Decimals}
-            tokenSupply={onchain.erc20Supply}
             tokenError={onchain.tokenError}
             globalError={onchain.error}
             spenderAddress={onchain.cashier}

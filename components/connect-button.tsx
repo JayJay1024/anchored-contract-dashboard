@@ -24,8 +24,8 @@ export function ConnectButton() {
 
   if (isConnected && address) {
     return (
-      <div className="flex items-center gap-2 rounded-full border bg-card px-3 py-1.5 text-sm">
-        <span className="text-muted-foreground">
+      <div className="flex h-10 items-center gap-2 rounded-full border bg-card px-3 text-sm">
+        <span className="text-muted-foreground whitespace-nowrap">
           {address.slice(0, 6)}…{address.slice(-4)}
         </span>
         <Button
@@ -41,10 +41,11 @@ export function ConnectButton() {
   }
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex min-w-[180px] flex-col gap-1">
       <Button
         variant="outline"
         size="sm"
+        className="h-10 w-full justify-center"
         onClick={() => primaryConnector && connect({ connector: primaryConnector })}
         disabled={!primaryConnector || isPending}
       >
@@ -52,8 +53,6 @@ export function ConnectButton() {
       </Button>
       {noConnector ? (
         <p className="text-xs text-destructive">No wallet connectors found.</p>
-      ) : !primaryConnector?.ready ? (
-        <p className="text-xs text-muted-foreground">Waiting for wallet…</p>
       ) : null}
       {error ? (
         <p className="text-xs text-destructive">{error.message}</p>
