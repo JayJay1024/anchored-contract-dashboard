@@ -10,7 +10,7 @@ const projectId = process.env.NEXT_PUBLIC_WC_PROJECT_ID;
 const connectors: CreateConnectorFn[] = [
   injected({ shimDisconnect: true }),
   // OKX injects a separate provider flag; target helps discover it.
-  injected({ shimDisconnect: true, target: "okxwallet" }),
+  injected({ shimDisconnect: true, target: "okxWallet" }),
   coinbaseWallet({ appName: "Anchored Dashboard" }),
 ];
 
