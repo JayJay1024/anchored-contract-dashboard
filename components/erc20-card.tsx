@@ -12,6 +12,7 @@ import {
 import { sepolia } from "wagmi/chains";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { erc20Abi } from "@/lib/abi/erc20";
 import { formatWithGrouping } from "@/lib/utils";
 
@@ -168,8 +169,7 @@ export function Erc20Card({
           <div className="space-y-2">
             <p className="font-medium text-foreground">Approve</p>
             <div className="flex items-center gap-2">
-              <input
-                className="w-full rounded-md border bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
+              <Input
                 placeholder={`Amount (${tokenSymbol ?? ""})`}
                 value={approveAmount}
                 onChange={(e) => setApproveAmount(e.target.value)}

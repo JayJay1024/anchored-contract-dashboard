@@ -14,6 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 type Props = {
   routerAddress?: Address;
@@ -102,8 +103,7 @@ export function RouterPlace({
       <div className="space-y-3 text-sm">
         <div className="space-y-1">
           <label className="text-muted-foreground">Quantity</label>
-          <input
-            className="w-full rounded-lg border border-border bg-background px-3 py-2 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+          <Input
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
             placeholder="e.g. 1.5"
@@ -111,8 +111,7 @@ export function RouterPlace({
         </div>
         <div className="space-y-1">
           <label className="text-muted-foreground">Price</label>
-          <input
-            className="w-full rounded-lg border border-border bg-background px-3 py-2 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+          <Input
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             placeholder="e.g. 10"
@@ -120,8 +119,7 @@ export function RouterPlace({
         </div>
         <div className="space-y-1">
           <label className="text-muted-foreground">Slippage (%)</label>
-          <input
-            className="w-full rounded-lg border border-border bg-background px-3 py-2 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
+          <Input
             value={slippagePct}
             onChange={(e) => setSlippagePct(e.target.value)}
             placeholder="0.1"
