@@ -7,7 +7,9 @@ import {
   useReadContract,
   useWriteContract,
   useWaitForTransactionReceipt,
+  useSwitchChain,
 } from "wagmi";
+import { sepolia } from "wagmi/chains";
 
 import { Button } from "@/components/ui/button";
 import { erc20Abi } from "@/lib/abi/erc20";
@@ -18,7 +20,6 @@ type Props = {
   tokenName?: string;
   tokenSymbol?: string;
   tokenDecimals?: number;
-  tokenSupply?: string;
   tokenError?: string;
   globalError?: string;
   spenderAddress?: Address;
@@ -29,14 +30,18 @@ export function Erc20Card({
   tokenName,
   tokenSymbol,
   tokenDecimals,
-  tokenSupply,
   tokenError,
   globalError,
   spenderAddress,
 }: Props) {
   const { address, isConnected } = useConnection();
+  const connection = useConnection();
+  const chainId = connection.chainId;
+  const { switchChain, isPending: isSwitching, error: switchError } =
+    useSwitchChain();
   const decimals = tokenDecimals ?? 18;
   const [approveAmount, setApproveAmount] = useState("");
+  const wrongChain = chainId !== undefined && chainId !== sepolia.id;
 
   const balance = useReadContract({
     address: tokenAddress,
@@ -135,16 +140,9 @@ export function Erc20Card({
             </span>
           ) : null}
         </div>
-        <div>
-          <p className="font-medium text-foreground">Total supply</p>
-          <p>
-            {formatWithGrouping(tokenSupply)}
-            {tokenSymbol ? ` ${tokenSymbol}` : ""}
-          </p>
-          {tokenDecimals !== undefined ? (
-            <p className="text-xs">Decimals: {tokenDecimals}</p>
-          ) : null}
-        </div>
+        {tokenDecimals !== undefined ? (
+          <p className="text-xs">Decimals: {tokenDecimals}</p>
+        ) : null}
       </div>
 
       {globalError ? (
@@ -161,12 +159,7 @@ export function Erc20Card({
             </p>
           </div>
           <div>
-            <p className="font-medium text-foreground">
-              Allowance (spender)
-            </p>
-            <p className="break-all text-xs">
-              {spenderAddress ?? "No spender"}
-            </p>
+            <p className="font-medium text-foreground">Allowance</p>
             <p>
               {formattedAllowance}
               {tokenSymbol ? ` ${tokenSymbol}` : ""}
@@ -188,18 +181,37 @@ export function Erc20Card({
                   !spenderAddress ||
                   !tokenAddress ||
                   isPending ||
-                  isConfirming
+                  isConfirming ||
+                  wrongChain
                 }
                 onClick={onApprove}
-              >
-                {isConfirming ? "Confirming…" : isPending ? "Approving…" : "Approve"}
-              </Button>
+            >
+              {isConfirming ? "Confirming…" : isPending ? "Approving…" : "Approve"}
+            </Button>
             </div>
+            {wrongChain ? (
+              <div className="flex items-center gap-2">
+                <p className="text-xs text-destructive">
+                  Switch wallet to Sepolia before approving.
+                </p>
+                <Button
+                  size="sm"
+                  variant="secondary"
+                  onClick={() => switchChain?.({ chainId: sepolia.id })}
+                  disabled={isSwitching}
+                >
+                  {isSwitching ? "Switching…" : "Switch"}
+                </Button>
+                {switchError ? (
+                  <p className="text-xs text-destructive">{switchError.message}</p>
+                ) : null}
+              </div>
+            ) : null}
             {writeError ? (
               <p className="text-xs text-destructive">{writeError.message}</p>
             ) : null}
-            {confirmError ? (
-              <p className="text-xs text-destructive">{confirmError.message}</p>
+          {confirmError ? (
+            <p className="text-xs text-destructive">{confirmError.message}</p>
             ) : null}
             {isConfirmed ? (
               <p className="text-xs text-green-600">Approval confirmed.</p>
