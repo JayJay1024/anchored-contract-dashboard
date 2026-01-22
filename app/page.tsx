@@ -5,6 +5,8 @@ import { RouterCard } from "@/components/router-card";
 import { StockTokenCard } from "@/components/stock-token-card";
 import { HeaderHero } from "@/components/header-hero";
 import { RouterPlace } from "@/components/router-place";
+import { RouterDeposit } from "@/components/router-deposit";
+import { RouterWithdraw } from "@/components/router-withdraw";
 import { getOnchainSnapshot } from "@/lib/onchain";
 
 export default async function Home() {
@@ -53,6 +55,18 @@ export default async function Home() {
             routerAddress={onchain.routerAddress}
             stockTokenAddress={onchain.stockTokenAddress}
             tokenDecimals={onchain.tokenDecimals}
+          />
+          <RouterDeposit
+            routerAddress={onchain.routerAddress}
+            tokenAddress={onchain.erc20Address}
+            tokenDecimals={onchain.erc20Decimals}
+            tokenSymbol={onchain.erc20Symbol}
+          />
+          <RouterWithdraw
+            routerAddress={onchain.routerAddress}
+            tokenAddress={onchain.erc20Address}
+            tokenDecimals={onchain.erc20Decimals}
+            tokenSymbol={onchain.erc20Symbol}
           />
         </section>
       </div>
