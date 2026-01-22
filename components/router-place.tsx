@@ -56,7 +56,7 @@ export function RouterPlace({
     try {
       const slipPercent = Number(slippagePct || "0");
       if (Number.isNaN(slipPercent) || slipPercent < 0) return;
-      const slip = BigInt(Math.round(slipPercent * 10_000)); // percent -> ppm
+      const slip = Math.round(slipPercent * 10_000); // percent -> ppm (uint24)
       const qty = parseUnits(quantity, tokenDecimals);
       const pr = parseUnits(price, tokenDecimals);
       const tifValue = Number(tif) as number;
