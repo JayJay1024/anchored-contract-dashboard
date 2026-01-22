@@ -1,6 +1,7 @@
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, MoonStar, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export default function Home() {
   return (
@@ -30,6 +31,7 @@ export default function Home() {
             <Button variant="ghost" size="icon" aria-label="Minimal action">
               <Sparkles className="h-4 w-4" />
             </Button>
+            <ModeToggle />
           </div>
         </header>
 
@@ -55,6 +57,10 @@ export default function Home() {
               Reuse the `Button` variants across pages, or use the `cn` helper
               to merge Tailwind classes in your own components.
             </p>
+            <div className="mt-4 inline-flex items-center gap-2 rounded-md border bg-muted px-3 py-2 text-xs font-medium text-muted-foreground">
+              <MoonStar className="h-4 w-4" />
+              Dark mode ready
+            </div>
           </div>
         </section>
       </div>
