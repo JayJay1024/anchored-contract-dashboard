@@ -100,9 +100,9 @@ export function RouterPlace({
         ) : null}
       </div>
 
-      <div className="space-y-3 text-sm">
+      <div className="space-y-2 text-sm">
         <div className="space-y-1">
-          <label className="text-muted-foreground">Quantity</label>
+          <label className="block text-muted-foreground">Quantity</label>
           <Input
             value={quantity}
             onChange={(e) => setQuantity(e.target.value)}
@@ -110,7 +110,7 @@ export function RouterPlace({
           />
         </div>
         <div className="space-y-1">
-          <label className="text-muted-foreground">Price</label>
+          <label className="block text-muted-foreground">Price</label>
           <Input
             value={price}
             onChange={(e) => setPrice(e.target.value)}
@@ -118,7 +118,7 @@ export function RouterPlace({
           />
         </div>
         <div className="space-y-1">
-          <label className="text-muted-foreground">Slippage (%)</label>
+          <label className="block text-muted-foreground">Slippage (%)</label>
           <Input
             value={slippagePct}
             onChange={(e) => setSlippagePct(e.target.value)}
@@ -126,7 +126,7 @@ export function RouterPlace({
           />
         </div>
         <div className="space-y-1">
-          <label className="text-muted-foreground">Time in force (tif)</label>
+          <label className="block text-muted-foreground">Time in force (tif)</label>
           <Select value={tif} onValueChange={setTif}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select TIF" />

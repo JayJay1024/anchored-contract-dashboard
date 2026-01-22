@@ -152,43 +152,38 @@ export function Erc20Card({
         <p className="text-sm text-destructive">{tokenError}</p>
       ) : (
         <div className="space-y-3 text-sm text-muted-foreground">
-          <div>
-            <p className="font-medium text-foreground">Balance</p>
-            <p>
-              {formattedBalance}
-              {tokenSymbol ? ` ${tokenSymbol}` : ""}
-            </p>
-          </div>
-          <div>
-            <p className="font-medium text-foreground">Allowance</p>
-            <p>
-              {formattedAllowance}
-              {tokenSymbol ? ` ${tokenSymbol}` : ""}
-            </p>
+          <div className="flex items-baseline gap-4">
+            <div>
+              <p className="font-medium text-foreground">Balance</p>
+              <p>{formattedBalance}</p>
+            </div>
+            <div>
+              <p className="font-medium text-foreground">Allowance</p>
+              <p>{formattedAllowance}</p>
+            </div>
           </div>
           <div className="space-y-2">
-            <p className="font-medium text-foreground">Approve</p>
-            <div className="flex items-center gap-2">
-              <Input
-                placeholder={`Amount (${tokenSymbol ?? ""})`}
-                value={approveAmount}
-                onChange={(e) => setApproveAmount(e.target.value)}
-              />
-              <Button
-                size="sm"
-                disabled={
-                  !approveAmount ||
-                  !spenderAddress ||
-                  !tokenAddress ||
-                  isPending ||
-                  isConfirming ||
-                  wrongChain
-                }
-                onClick={onApprove}
+            <Input
+              placeholder={`Amount (${tokenSymbol ?? ""})`}
+              value={approveAmount}
+              onChange={(e) => setApproveAmount(e.target.value)}
+              className="h-9"
+            />
+            <Button
+              size="sm"
+              className="w-full"
+              disabled={
+                !approveAmount ||
+                !spenderAddress ||
+                !tokenAddress ||
+                isPending ||
+                isConfirming ||
+                wrongChain
+              }
+              onClick={onApprove}
             >
               {isConfirming ? "Confirming…" : isPending ? "Approving…" : "Approve"}
             </Button>
-            </div>
             {wrongChain ? (
               <div className="flex items-center gap-2">
                 <p className="text-xs text-destructive">

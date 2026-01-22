@@ -83,12 +83,13 @@ export function RouterDeposit({
         ) : null}
       </div>
 
-      <div className="space-y-2 text-sm">
-        <label className="text-muted-foreground">Amount</label>
+      <div className="space-y-1 text-sm">
+        <label className="block text-muted-foreground">Amount</label>
         <Input
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
           placeholder={`Amount ${tokenSymbol ?? ""}`}
+          className="h-9"
         />
       </div>
 
